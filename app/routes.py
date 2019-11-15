@@ -85,6 +85,38 @@ def edit_profile():
     return render_template('edit_profile.html', title='Edit Profile', form=form)
 
 
+@flask_app.route('/follow/<username>')
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot follow yourself...stupid')
+        return redirect(url_for('profile', username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash('You are now following {}'.format(username))
+    return redirect(url_for('profile', username=username))
+
+
+@flask_app.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot unfollow yourself...stupid')
+        return redirect(url_for('profile', username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash('You are no longer following {}'.format(username))
+    return redirect(url_for('profile', username=username))
+
+
 @flask_app.route('/logout')
 def logout():
     logout_user()
