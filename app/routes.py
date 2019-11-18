@@ -4,8 +4,8 @@ from werkzeug.urls import url_parse
 from datetime import datetime
 
 from app import flask_app, db
-from app.models import User
-from app.forms import LoginForm, SignupForm, EditProfileForm
+from app.models import User, Post
+from app.forms import LoginForm, SignupForm, EditProfileForm, PostForm
 
 
 @flask_app.route('/signup', methods=['GET', 'POST'])
@@ -41,32 +41,35 @@ def login():
     return render_template('login.html', title='Log In', form=form)
 
 
-@flask_app.route('/')
-@flask_app.route('/index')
+@flask_app.route('/', methods=['GET', 'POST'])
+@flask_app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is live now')
+        return redirect(url_for('index'))
+    page = request.args.get('page', 1, type=int)
+    posts = current_user.followed_posts().paginate(page, flask_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('index', page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('index', page=posts.prev_num) if posts.has_prev else None
+    return render_template('index.html', title='Home', form=form,
+                           posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 
 @flask_app.route('/profile/<username>')
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Trekking was awesome'},
-        {'author': user, 'body': 'Music is life'}
-    ]
-    return render_template('profile.html', title='Profile', user=user, posts=posts)
+    page = request.args.get('page', 1, type=int)
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(page, flask_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('profile', username=user.username, page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('profile', username=user.username, page=posts.prev_num) if posts.has_prev else None
+    return render_template('profile.html', title='Profile', user=user,
+                           posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 
 @flask_app.route('/edit-profile', methods=['GET', 'POST'])
@@ -115,6 +118,16 @@ def unfollow(username):
     db.session.commit()
     flash('You are no longer following {}'.format(username))
     return redirect(url_for('profile', username=username))
+
+
+@flask_app.route('/explore')
+@login_required
+def explore():
+    page = request.args.get('page', 1, type=int)
+    posts = current_user.followed_posts().paginate(page, flask_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('index', page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('index', page=posts.prev_num) if posts.has_prev else None
+    return render_template('index.html', title='Explore', posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 
 @flask_app.route('/logout')
