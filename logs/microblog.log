@@ -1,4 +1,4 @@
-2019-11-18 13:33:08,601 ERROR: Exception on /explore [GET] [in /usr/local/lib/python3.7/dist-packages/flask/app.py:1891]
+2019-11-18 16:29:01,919 ERROR: Exception on / [GET] [in /usr/local/lib/python3.7/dist-packages/flask/app.py:1891]
 Traceback (most recent call last):
   File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 2446, in wsgi_app
     response = self.full_dispatch_request()
@@ -14,8 +14,8 @@ Traceback (most recent call last):
     return self.view_functions[rule.endpoint](**req.view_args)
   File "/usr/local/lib/python3.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
     return func(*args, **kwargs)
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/routes.py", line 121, in explore
-    return render_template('index.html', title='Explore', posts=posts.items)
+  File "/home/harshalgangurde/Workspace/Flask/microblog/app/routes.py", line 60, in index
+    posts=posts.items, next_url=next_url, prev_url=prev_url)
   File "/usr/local/lib/python3.7/dist-packages/flask/templating.py", line 140, in render_template
     ctx.app,
   File "/usr/local/lib/python3.7/dist-packages/flask/templating.py", line 120, in _render
@@ -28,89 +28,23 @@ Traceback (most recent call last):
     reraise(exc_type, exc_value, tb)
   File "/usr/local/lib/python3.7/dist-packages/jinja2/_compat.py", line 37, in reraise
     raise value.with_traceback(tb)
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 9, in top-level template code
-    {% extends "base.html" %}
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/base.html", line 32, in top-level template code
-    {% block content %}{% endblock %}
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 25, in block "content"
-    {% for post in posts %}
-TypeError: 'Pagination' object is not iterable
-2019-11-18 13:33:09,903 ERROR: Exception on /explore [GET] [in /usr/local/lib/python3.7/dist-packages/flask/app.py:1891]
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 2446, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1951, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1820, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python3.7/dist-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1949, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1935, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/usr/local/lib/python3.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/routes.py", line 121, in explore
-    return render_template('index.html', title='Explore', posts=posts.items)
-  File "/usr/local/lib/python3.7/dist-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/usr/local/lib/python3.7/dist-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/asyncsupport.py", line 76, in render
-    return original_render(self, *args, **kwargs)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/environment.py", line 780, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/_compat.py", line 37, in reraise
-    raise value.with_traceback(tb)
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 9, in top-level template code
-    {% extends "base.html" %}
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/base.html", line 32, in top-level template code
-    {% block content %}{% endblock %}
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 25, in block "content"
-    {% for post in posts %}
-TypeError: 'Pagination' object is not iterable
-2019-11-18 13:33:10,601 ERROR: Exception on /explore [GET] [in /usr/local/lib/python3.7/dist-packages/flask/app.py:1891]
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 2446, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1951, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1820, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python3.7/dist-packages/flask/_compat.py", line 39, in reraise
-    raise value
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1949, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/usr/local/lib/python3.7/dist-packages/flask/app.py", line 1935, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/usr/local/lib/python3.7/dist-packages/flask_login/utils.py", line 261, in decorated_view
-    return func(*args, **kwargs)
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/routes.py", line 121, in explore
-    return render_template('index.html', title='Explore', posts=posts.items)
-  File "/usr/local/lib/python3.7/dist-packages/flask/templating.py", line 140, in render_template
-    ctx.app,
-  File "/usr/local/lib/python3.7/dist-packages/flask/templating.py", line 120, in _render
-    rv = template.render(context)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/asyncsupport.py", line 76, in render
-    return original_render(self, *args, **kwargs)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/environment.py", line 780, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/usr/local/lib/python3.7/dist-packages/jinja2/_compat.py", line 37, in reraise
-    raise value.with_traceback(tb)
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 9, in top-level template code
-    {% extends "base.html" %}
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/base.html", line 32, in top-level template code
-    {% block content %}{% endblock %}
-  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 25, in block "content"
-    {% for post in posts %}
-TypeError: 'Pagination' object is not iterable
-2019-11-18 13:33:13,317 INFO: Microblog Startup... [in /home/harshalgangurde/Workspace/Flask/microblog/app/__init__.py:29]
-2019-11-18 13:40:51,274 INFO: Microblog Startup... [in /home/harshalgangurde/Workspace/Flask/microblog/app/__init__.py:29]
-2019-11-18 13:44:43,364 INFO: Microblog Startup... [in /home/harshalgangurde/Workspace/Flask/microblog/app/__init__.py:29]
-2019-11-18 13:45:08,002 INFO: Microblog Startup... [in /home/harshalgangurde/Workspace/Flask/microblog/app/__init__.py:29]
-2019-11-18 13:50:11,343 INFO: Microblog Startup... [in /home/harshalgangurde/Workspace/Flask/microblog/app/__init__.py:29]
+  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 10, in top-level template code
+    {% import 'bootstrap/wtf.html' as wtf %}
+  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/base.html", line 8, in top-level template code
+    {% extends 'bootstrap/base.html' %}
+  File "/usr/local/lib/python3.7/dist-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
+    {% block doc -%}
+  File "/usr/local/lib/python3.7/dist-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
+    {%- block html %}
+  File "/usr/local/lib/python3.7/dist-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
+    {% block body -%}
+  File "/usr/local/lib/python3.7/dist-packages/flask_bootstrap/templates/bootstrap/base.html", line 23, in block "body"
+    {% block content -%}
+  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/base.html", line 42, in block "content"
+    {% block app_content %}{% endblock %}
+  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/index.html", line 22, in block "app_content"
+    {% include '_post.html' %}
+  File "/home/harshalgangurde/Workspace/Flask/microblog/app/templates/_post.html", line 5, in top-level template code
+    <img src="{{ post.author.avatar(70) }}" />
+jinja2.exceptions.UndefinedError: 'app.models.User object' has no attribute 'avatar'
+2019-11-18 16:30:29,712 INFO: Microblog Startup... [in /home/harshalgangurde/Workspace/Flask/microblog/app/__init__.py:31]
