@@ -1,4 +1,4 @@
-from app import flask_app, db
+from app import flask_app, db, cli
 from app.models import User, Post
 
 

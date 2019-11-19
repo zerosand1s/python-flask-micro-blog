@@ -3,6 +3,7 @@ __pycache__/
 /venv
 .flaskenv
 /logs
+messages.pot
 
 .vscode/
 .idea/

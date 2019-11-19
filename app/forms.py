@@ -1,39 +1,40 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
+from flask_babel import _, lazy_gettext as _l
 
 from app.models import User
 
 
 class SignupForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = StringField('Password', validators=[DataRequired()])
-    repeat_password = StringField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+    username = StringField(_l('Username'), validators=[DataRequired()])
+    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    password = StringField(_l('Password'), validators=[DataRequired()])
+    repeat_password = StringField(_l('Repeat Password'), validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField(_l('Sign Up'))
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
-            raise ValidationError('Username already exists. Please choose different username')
+            raise ValidationError(_('Username already exists. Please choose different username'))
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Email already exists. Please use different email address')
+            raise ValidationError(_('Email already exists. Please use different email address'))
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = StringField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Log In')
+    username = StringField(_l('Username'), validators=[DataRequired()])
+    password = StringField(_l('Password'), validators=[DataRequired()])
+    remember_me = BooleanField(_l('Remember Me'))
+    submit = SubmitField(_l('Log In'))
 
 
 class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    about_me = TextAreaField('About Me', validators=[Length(min=0, max=100)])
-    submit = SubmitField('Save')
+    username = StringField(_l('Username'), validators=[DataRequired()])
+    about_me = TextAreaField(_l('About Me'), validators=[Length(min=0, max=100)])
+    submit = SubmitField(_l('Save'))
 
     def __init__(self, original_username, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -43,9 +44,9 @@ class EditProfileForm(FlaskForm):
         if username.data != self.original_username:
             user = User.query.filter_by(username=username.data).first()
             if user is not None:
-                raise ValidationError('Please use different username')
+                raise ValidationError(_('Please use different username'))
 
 
 class PostForm(FlaskForm):
-    post = TextAreaField('Say something...', validators=[DataRequired(), Length(min=1, max=200)])
-    submit = SubmitField('Post')
+    post = TextAreaField(_l('Say something...'), validators=[DataRequired(), Length(min=1, max=200)])
+    submit = SubmitField(_l('Post'))
